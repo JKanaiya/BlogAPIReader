@@ -1,21 +1,8 @@
-import { useState } from "react";
-
-const Posts = function ({ data, user }) {
-  const [selectedPost, setSelectedPost] = useState(null);
-
-  const [commentsVisible, setCommentsVisible] = useState(false);
-
-  const seePost = (post) => {
-    setSelectedPost(post);
-  };
-
+export default function Posts({ data, toggleSelectedPost, selectedPost }) {
   return (
     <div>
       {selectedPost && (
         <div>
-          <button onClick={setCommentsVisible}>
-            {commentsVisible ? "Hide Comments" : "View Comments"}
-          </button>
           {/* TODO: change this to the correct sytledComponent component */}
           <div>
             <h3>{selectedPost.title}</h3>
@@ -27,13 +14,11 @@ const Posts = function ({ data, user }) {
       {data &&
         !selectedPost &&
         data.map((post) => (
-          <div key={post.id} onClick={() => seePost(post)}>
+          <div key={post.id} onClick={() => toggleSelectedPost(post)}>
             <h3>{post.title}</h3>
             <button>see{post.id}</button>
           </div>
         ))}
     </div>
   );
-};
-
-export default Posts;
+}

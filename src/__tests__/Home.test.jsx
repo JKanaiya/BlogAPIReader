@@ -2,31 +2,8 @@ import Comments from "../components/Comments";
 import { describe, test, expect } from "vitest";
 import { screen, render } from "@testing-library/react";
 
-const selectedPost = {
-  id: 3,
-  comments: [
-    {
-      id: 4,
-      text: "blabla",
-      comments: [
-        {
-          id: 5,
-          text: "blagain",
-          comments: [],
-        },
-      ],
-    },
-  ],
-};
-
-const fakeUser = {
-  id: 5,
-  role: "READER",
-  comments: [],
-};
-
-describe("Comment testing", () => {
-  test("Display the addComment section if the user is logged in", () => {
+describe("Home testing", () => {
+  test("", () => {
     render(<Comments selectedPost={selectedPost} user={fakeUser} />);
     expect(screen.queryByRole("addComment")).toBeInTheDocument();
   });

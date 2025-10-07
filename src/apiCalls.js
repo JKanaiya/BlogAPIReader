@@ -9,47 +9,41 @@ const ApiCall = (function () {
     Authorization: `Bearer ${token}`,
   };
 
-  const attemptCall = function (call) {
-    return token ? call : "Token is invalid";
+  const attemptCall = async function (call) {
+    return token ? await call : "Token is invalid";
   };
 
-  const getPosts = async function () {
-    const posts = await axios.get(url + "posts");
-    return posts.data;
+  const signUp = function (formData) {
+    return attemptCall(axios.post(url + "sign-up", { headers, formData }));
   };
 
-  const signUp = async function (formData) {
-    return attemptCall(axios.post(url + "/sign-up", { headers, formData }));
+  const logOut = function () {
+    return attemptCall(axios.get(url + "log-out", { headers }));
   };
 
-  const logOut = async function () {
-    return attemptCall(axios.get(url + "/log-out", { headers }));
+  const logIn = function (formData) {
+    return attemptCall(axios.post(url + "log-in", { headers, formData }));
   };
 
-  const logIn = async function (formData) {
-    return attemptCall(axios.post(url + "/log-in", { headers, formData }));
+  const commentCreated = function (formData) {
+    return attemptCall(axios.put(url + "comment", { headers, formData }));
   };
 
-  const commentCreated = async function (formData) {
-    return attemptCall(axios.put(url + "/comment", { headers, formData }));
+  const commentUpdated = function (formData) {
+    return attemptCall(axios.patch(url + "comment", { headers, formData }));
   };
 
-  const commentDeleted = async function (formData) {
-    return attemptCall(axios.delete(url + "/comment", { headers, formData }));
-  };
-
-  const commentUpdated = async function (formData) {
-    return attemptCall(axios.patch(url + "/comment", { headers, formData }));
+  const commentDeleted = function (formData) {
+    return attemptCall(axios.delete(url + "comment", { headers, formData }));
   };
 
   return {
-    getPosts,
+    signUp,
     logIn,
     logOut,
-    signUp,
     commentCreated,
-    commentDeleted,
     commentUpdated,
+    commentDeleted,
   };
 })();
 

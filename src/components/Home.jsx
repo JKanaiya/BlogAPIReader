@@ -1,47 +1,48 @@
 import useSWR from "swr";
+import axios from "axios";
 import Comments from "./Comments";
 import Posts from "./Posts";
-import { useEffect, useState } from "react";
-import ApiCall from "../apiCalls";
+import AppContext from "../AppContext";
+import { useState } from "react";
 
-const Home = () => {
-  const [selectedPost, setSelectedPost] = useState(null);
+export default function Home() {
+  const getPosts = async (url) => {
+    const posts = await axios.get(url + "posts");
+    return posts.data;
+  };
 
-  const [data, setData] = useState(null);
+  const [selectedComment, setSelectedComment] = useState({});
 
-  const [error, setError] = useState(null);
+  const [selectedPost, setSelectedPost] = useState({});
 
-  // const [commentsVisible, setCommentsVisible] = useState(false);
-  //
-  // const seePost = (post) => {
-  //   setSelectedPost(post);
-  // };
-  //
+  const [user, setUser] = useState({});
 
-  // const { data, error, isLoading: loading } = useSWR(url, ApiCall.getPosts());
+  const toggleSelectedPost = (post) => {
+    setSelectedPost(selectedPost ? null : post);
+  };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await ApiCall.getPosts();
-        setData(data);
-      } catch (err) {
-        setError(err);
-      }
-    };
-    getData();
-  }, []);
+  const toggleSelectedComment = (comment) => {
+    setSelectedComment(selectedComment ? null : comment);
+  };
 
-  console.log(data);
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useSWR(import.meta.env.VITE_BACKEND_URL, getPosts);
 
   return (
     <div>
-      {/* {commentsVisible && <Comments data={data} user={data.user} />} */}
+      <Comments
+        data={data}
+        selectedComment={selectedComment}
+        selectedPost={selectedPost}
+        toggleSelectedComment={toggleSelectedComment}
+        user={user}
+      />
+      {loading && <p> Loading...</p>}
       {error && <p> Error = {error}</p>}
-      {data && <Posts data={data} />}
-      {!error && !data && <p> Loading...</p>}
+      {data && <Posts data={data} toggleSelectedPost={toggleSelectedPost} />}
     </div>
   );
-};
-
-export default Home;
+}

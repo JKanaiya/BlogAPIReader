@@ -1,23 +1,23 @@
-import { useState } from "react";
-
-const Comments = ({ selectedPost, user }) => {
-  const [selectedComment, setSelectedComment] = useState(null);
-
-  const toggleSelectedComment = (comment) => {
-    setSelectedComment(selectedComment ? null : comment);
-  };
+const Comments = ({
+  user,
+  setSelectedComment,
+  selectedComment,
+  selectedPost,
+}) => {
   return (
     <div id="comments">
       {selectedComment && (
         <div>
-          <button onClick={toggleSelectedComment}>Go To Top Comment</button>
+          <button onClick={() => setSelectedComment(null)}>
+            Go To Top Comment
+          </button>
           <p>{selectedComment.id}</p>
           <p>{selectedComment.text}</p>
           {selectedComment.comments.map((comment) => (
             <p
               key={comment.id}
               role={comment.id}
-              onClick={() => toggleSelectedComment(comment)}
+              onClick={() => setSelectedComment(comment)}
             >
               {comment.text}
             </p>
@@ -26,11 +26,7 @@ const Comments = ({ selectedPost, user }) => {
       )}
       {!selectedComment &&
         selectedPost.comments.map((comment) => (
-          <div
-            key={comment.id}
-            role={comment.id}
-            onClick={() => toggleSelectedComment(comment)}
-          >
+          <div key={comment.id} role={comment.id} onClick={setSelectedComment}>
             {comment.text}
           </div>
         ))}

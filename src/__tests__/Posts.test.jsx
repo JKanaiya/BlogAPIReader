@@ -1,7 +1,6 @@
 import Posts from "../components/Posts";
 import { describe, test, expect } from "vitest";
-import { screen, render, act } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { screen, render } from "@testing-library/react";
 
 const postData = [
   {
@@ -81,13 +80,47 @@ describe("Post Func Testing", () => {
       await screen.findByText(/No Posts are Available/),
     ).toBeInTheDocument();
   });
+
   test("Display the selected post if a post is selected", async () => {
-    const user = userEvent;
-    render(<Posts data={postData} />);
-    const seePost = screen.getByRole("button", { name: "see3" });
-    await act(async () => user.click(seePost));
+    render(
+      <Posts
+        data={postData}
+        selectedPost={{
+          id: 4,
+          title: "postTitle2",
+          userId: 2,
+          text: "dummy data 2 to test the Post data rendering",
+          summary: "dummy data 2",
+          comments: [
+            {
+              id: 1,
+              text: "comment 1",
+            },
+            {
+              id: 2,
+              text: "comment 2",
+            },
+            {
+              id: 3,
+              text: "comment 3",
+            },
+            {
+              id: 4,
+              text: "comment 4",
+            },
+            {
+              id: 5,
+              text: "comment 5",
+            },
+          ],
+          published: true,
+          created: Date.now(),
+        }}
+      />,
+    );
     expect(await screen.findByText(/data rendering/)).toBeInTheDocument();
   });
+
   test("Do not display full text if there is no post selected", () => {
     render(<Posts data={postData} />);
     expect(screen.queryByText(/data rendering/)).not.toBeInTheDocument();
