@@ -3,47 +3,71 @@ import axios from "axios";
 const ApiCall = (function () {
   const url = import.meta.env.VITE_BACKEND_URL;
 
-  const token = localStorage.getItem("token");
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const getToken = () => localStorage.getItem("token");
 
   const attemptCall = async function (call) {
-    return token ? await call : "Token is invalid";
+    const token = getToken();
+    return token == null ? await call : "Token is invalid";
   };
 
-  const signUp = function (formData) {
-    return attemptCall(axios.post(url + "sign-up", { headers, formData }));
+  const signUp = async function (formData) {
+    const result = await axios.post(url + "sign-up", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+    return result;
   };
 
   const logOut = function () {
-    return attemptCall(axios.get(url + "log-out", { headers }));
+    return attemptCall(
+      axios.get(url + "log-out", {
+        headers: `Authorization: Bearer ${getToken()}`,
+      }),
+    );
   };
 
-  const logIn = function (formData) {
-    return attemptCall(axios.post(url + "log-in", { headers, formData }));
+  const logIn = async function (formData) {
+    const result = await axios.post(url + "log-in", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+    return result;
   };
 
-  const commentCreated = function (formData) {
-    return attemptCall(axios.put(url + "comment", { headers, formData }));
+  const createComment = function (formData) {
+    return attemptCall(
+      axios.put(url + "comment", {
+        headers: `Authorization: Bearer ${getToken()}`,
+        formData,
+      }),
+    );
   };
 
-  const commentUpdated = function (formData) {
-    return attemptCall(axios.patch(url + "comment", { headers, formData }));
+  const updateComment = function (formData) {
+    return attemptCall(
+      axios.patch(url + "comment", {
+        headers: `Authorization: Bearer ${getToken()}`,
+        formData,
+      }),
+    );
   };
 
-  const commentDeleted = function (formData) {
-    return attemptCall(axios.delete(url + "comment", { headers, formData }));
+  const deleteComment = function (formData) {
+    return attemptCall(
+      axios.delete(url + "comment", {
+        headers: `Authorization: Bearer ${getToken()}`,
+        formData,
+      }),
+    );
   };
 
   return {
     signUp,
     logIn,
     logOut,
-    commentCreated,
-    commentUpdated,
-    commentDeleted,
+    createComment,
+    updateComment,
+    deleteComment,
   };
 })();
 

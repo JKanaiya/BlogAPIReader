@@ -1,9 +1,15 @@
-const Comments = ({
-  user,
-  setSelectedComment,
-  selectedComment,
-  selectedPost,
-}) => {
+import { useContext } from "react";
+import ApiCall from "../apiCalls";
+import AuthContext from "../AuthContext";
+
+const Comments = ({ setSelectedComment, selectedComment, selectedPost }) => {
+  const addComment = (formData) => {
+    const confirm = ApiCall.addComment(formData);
+    console.log(confirm);
+  };
+
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <div id="comments">
       {selectedComment && (
@@ -25,15 +31,24 @@ const Comments = ({
         </div>
       )}
       {!selectedComment &&
+        selectedPost &&
         selectedPost.comments.map((comment) => (
           <div key={comment.id} role={comment.id} onClick={setSelectedComment}>
             {comment.text}
           </div>
         ))}
-      {user && (
-        <form role="addComment">
+      {isLoggedIn ? (
+        <form role="addComment" action={addComment}>
           <input type="text" name="comment" id="" placeholder="Add Comment" />
+          <button type="submit">Add Comment</button>
         </form>
+      ) : (
+        <div>
+          <h3>
+            <Link to="log-in">Log in</Link>/<Link to="sign-in">Sign in</Link>
+          </h3>
+          <p>To join the conversation</p>
+        </div>
       )}
     </div>
   );
