@@ -1,17 +1,34 @@
 import axios from "axios";
 
 const ApiCall = (function () {
-  const url = import.meta.env.VITE_BACKEND_URL;
+  const api = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_URL,
+    headers: {
+      "Content-Type": "application/json", // Common content type
+    },
+  });
 
-  const getToken = () => localStorage.getItem("token");
+  // Add an interceptor to include the token with every request
+  api.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("token"); // Or sessionStorage
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    },
+  );
 
-  const attemptCall = async function (call) {
-    const token = getToken();
-    return token == null ? await call : "Token is invalid";
-  };
+  // const attemptCall = async function (call) {
+  //   const token = getToken();
+  //   return token != null ? await call : "Token is invalid";
+  // };
 
   const signUp = async function (formData) {
-    const result = await axios.post(url + "sign-up", {
+    const result = await api.post("sign-up", {
       email: formData.get("email"),
       password: formData.get("password"),
     });
@@ -19,46 +36,39 @@ const ApiCall = (function () {
   };
 
   const logOut = function () {
-    return attemptCall(
-      axios.get(url + "log-out", {
-        headers: `Authorization: Bearer ${getToken()}`,
-      }),
-    );
+    return api.get("log-out");
   };
 
   const logIn = async function (formData) {
-    const result = await axios.post(url + "log-in", {
+    const result = await api.post("log-in", {
       email: formData.get("email"),
       password: formData.get("password"),
     });
     return result;
   };
 
-  const createComment = function (formData) {
-    return attemptCall(
-      axios.put(url + "comment", {
-        headers: `Authorization: Bearer ${getToken()}`,
-        formData,
-      }),
-    );
+  const createComment = async function (formData, postId, commentId, email) {
+    return commentId
+      ? await api.put("comment", {
+        comment: formData.get("comment"),
+        postId,
+        commentId,
+        email,
+        parentComment: true,
+      })
+      : await api.put("comment", {
+        comment: formData.get("comment"),
+        postId,
+        email,
+      });
   };
 
-  const updateComment = function (formData) {
-    return attemptCall(
-      axios.patch(url + "comment", {
-        headers: `Authorization: Bearer ${getToken()}`,
-        formData,
-      }),
-    );
+  const updateComment = async function (formData) {
+    return await api.patch("comment", formData);
   };
 
-  const deleteComment = function (formData) {
-    return attemptCall(
-      axios.delete(url + "comment", {
-        headers: `Authorization: Bearer ${getToken()}`,
-        formData,
-      }),
-    );
+  const deleteComment = async function (formData) {
+    return await api.delete("comment", formData);
   };
 
   return {

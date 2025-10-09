@@ -21,8 +21,8 @@ export default function Home() {
   const { isLoggedIn } = useContext(AuthContext);
 
   const toggleSelectedPost = (post) => {
+    console.log(post);
     setSelectedPost(selectedPost ? null : post);
-    console.log(isLoggedIn);
   };
 
   const toggleSelectedComment = (comment) => {
@@ -31,6 +31,7 @@ export default function Home() {
 
   const toggleComments = () => {
     setCommentsVisible(commentsVisible ? false : true);
+    console.log(`selected post visible: ${selectedPost}`);
   };
 
   const {
@@ -57,7 +58,7 @@ export default function Home() {
           data={data}
           toggleSelectedPost={toggleSelectedPost}
           selectedPost={selectedPost}
-          setCommentsVisible={toggleComments}
+          toggleComments={toggleComments}
         />
       )}
       {!isLoggedIn && (

@@ -1,20 +1,35 @@
 import { useContext } from "react";
 import ApiCall from "../apiCalls";
 import AuthContext from "../AuthContext";
+import { Link } from "react-router";
 
-const Comments = ({ setSelectedComment, selectedComment, selectedPost }) => {
-  const addComment = (formData) => {
-    const confirm = ApiCall.addComment(formData);
-    console.log(confirm);
+const Comments = ({ toggleSelectedComment, selectedComment, selectedPost }) => {
+  const { isLoggedIn, email } = useContext(AuthContext);
+
+  const addComment = async (formData) => {
+    if (selectedComment) {
+      const confirm = await ApiCall.createComment(
+        formData,
+        selectedPost.id,
+        selectedComment.id,
+        email,
+      );
+      console.log(confirm.status);
+    } else {
+      const confirm = await ApiCall.createComment(
+        formData,
+        selectedPost.id,
+        email,
+      );
+      console.log(confirm.status);
+    }
   };
-
-  const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <div id="comments">
       {selectedComment && (
         <div>
-          <button onClick={() => setSelectedComment(null)}>
+          <button onClick={() => toggleSelectedComment(null)}>
             Go To Top Comment
           </button>
           <p>{selectedComment.id}</p>
@@ -23,17 +38,40 @@ const Comments = ({ setSelectedComment, selectedComment, selectedPost }) => {
             <p
               key={comment.id}
               role={comment.id}
-              onClick={() => setSelectedComment(comment)}
+              onClick={() => toggleSelectedComment(comment)}
             >
               {comment.text}
             </p>
           ))}
+          {isLoggedIn ? (
+            <form role="addComment" action={addComment}>
+              <input
+                type="text"
+                name="comment"
+                id=""
+                placeholder="Add Comment"
+              />
+              <button type="submit">Add Comment</button>
+            </form>
+          ) : (
+            <div>
+              <h3>
+                <Link to="log-in">Log in</Link>/
+                <Link to="sign-in">Sign in</Link>
+              </h3>
+              <p>To join the conversation</p>
+            </div>
+          )}
         </div>
       )}
       {!selectedComment &&
         selectedPost &&
-        selectedPost.comments.map((comment) => (
-          <div key={comment.id} role={comment.id} onClick={setSelectedComment}>
+        selectedPost.Comment.map((comment) => (
+          <div
+            key={comment.id}
+            role={comment.id}
+            onClick={toggleSelectedComment}
+          >
             {comment.text}
           </div>
         ))}
@@ -45,7 +83,8 @@ const Comments = ({ setSelectedComment, selectedComment, selectedPost }) => {
       ) : (
         <div>
           <h3>
-            <Link to="log-in">Log in</Link>/<Link to="sign-in">Sign in</Link>
+            <Link to="auth/log-in">Log in</Link>/
+            <Link to="auth/sign-in">Sign in</Link>
           </h3>
           <p>To join the conversation</p>
         </div>
