@@ -3,8 +3,9 @@ import axios from "axios";
 import Comments from "./Comments";
 import Posts from "./Posts";
 import { useContext, useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link } from "react-router";
 import AuthContext from "../AuthContext";
+import ApiCall from "../apiCalls";
 
 export default function Home() {
   const [commentsVisible, setCommentsVisible] = useState(false);
@@ -20,8 +21,20 @@ export default function Home() {
 
   const { isLoggedIn } = useContext(AuthContext);
 
+  // const checkToken = () => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     try {
+  //       ApiCall.logIn();
+  //       login();
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   } else {
+  //   }
+  // };
+
   const toggleSelectedPost = (post) => {
-    console.log(post);
     setSelectedPost(selectedPost ? null : post);
   };
 
@@ -31,24 +44,37 @@ export default function Home() {
 
   const toggleComments = () => {
     setCommentsVisible(commentsVisible ? false : true);
-    console.log(`selected post visible: ${selectedPost}`);
+    console.log(isLoggedIn);
   };
 
   const {
     data,
     error,
+    mutate,
     isLoading: loading,
-  } = useSWR(import.meta.env.VITE_BACKEND_URL, getPosts);
+  } = useSWR(import.meta.env.VITE_BACKEND_URL, getPosts, {
+    revalidateOnMount: true,
+  });
+
+  const updateComments = (selectedPost, comment) => {
+    const postIndex = data.findIndex((post) => post.id == selectedPost.id);
+    console.log(comment);
+    mutate({ ...data[postIndex].Comment, comment }, { revalidate: true });
+    setSelectedPost({
+      ...selectedPost,
+      Comment: [...selectedPost.Comment, comment],
+    });
+  };
 
   return (
     <div>
       {commentsVisible && (
         <Comments
-          data={data}
+          updateComments={updateComments}
           selectedComment={selectedComment}
           selectedPost={selectedPost}
           toggleSelectedComment={toggleSelectedComment}
-          commentsVisible={commentsVisible}
+          data={data}
         />
       )}
       {loading && <p> Loading...</p>}

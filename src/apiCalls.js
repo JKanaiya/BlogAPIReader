@@ -47,20 +47,20 @@ const ApiCall = (function () {
     return result;
   };
 
-  const createComment = async function (formData, postId, commentId, email) {
+  const createComment = async function (comment, postId, commentId, email) {
     return commentId
       ? await api.put("comment", {
-        comment: formData.get("comment"),
-        postId,
-        commentId,
-        email,
-        parentComment: true,
-      })
+          comment,
+          postId,
+          commentId,
+          email,
+          parentComment: true,
+        })
       : await api.put("comment", {
-        comment: formData.get("comment"),
-        postId,
-        email,
-      });
+          comment,
+          postId,
+          email,
+        });
   };
 
   const updateComment = async function (formData) {
