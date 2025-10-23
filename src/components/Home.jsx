@@ -25,6 +25,14 @@ export default function Home() {
     setSelectedPost(selectedPost ? null : post);
   };
 
+  const mutatePostComments = (comment) => {
+    setSelectedPost((prevState) => ({
+      ...prevState,
+      Comment: [...prevState.Comment, comment],
+    }));
+    console.log(selectedPost);
+  };
+
   const toggleSelectedComment = (comment) => {
     setSelectedComment(selectedComment ? null : comment);
   };
@@ -46,6 +54,7 @@ export default function Home() {
           selectedComment={selectedComment}
           selectedPost={selectedPost}
           toggleSelectedComment={toggleSelectedComment}
+          mutatePostComments={mutatePostComments}
         />
       )}
       {loading && <p> Loading...</p>}

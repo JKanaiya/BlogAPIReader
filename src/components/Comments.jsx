@@ -4,7 +4,12 @@ import AuthContext from "../AuthContext";
 import { Link } from "react-router";
 import style from "../styles/heading.module.css";
 
-const Comments = ({ toggleSelectedComment, selectedComment, selectedPost }) => {
+const Comments = ({
+  toggleSelectedComment,
+  selectedComment,
+  selectedPost,
+  mutatePostComments,
+}) => {
   const { isLoggedIn, email } = useContext(AuthContext);
 
   const addComment = async (formData) => {
@@ -14,7 +19,7 @@ const Comments = ({ toggleSelectedComment, selectedComment, selectedPost }) => {
       selectedComment ? selectedComment.id : null,
       email,
     );
-    console.log(confirm.status);
+    // confirm.status == 200 && mutate({...})
   };
 
   return (
