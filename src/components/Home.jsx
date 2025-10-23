@@ -3,7 +3,7 @@ import axios from "axios";
 import Comments from "./Comments";
 import Posts from "./Posts";
 import { useContext, useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link } from "react-router";
 import AuthContext from "../AuthContext";
 
 export default function Home() {
@@ -31,7 +31,6 @@ export default function Home() {
 
   const toggleComments = () => {
     setCommentsVisible(commentsVisible ? false : true);
-    console.log(`selected post visible: ${selectedPost}`);
   };
 
   const {
@@ -44,11 +43,9 @@ export default function Home() {
     <div>
       {commentsVisible && (
         <Comments
-          data={data}
           selectedComment={selectedComment}
           selectedPost={selectedPost}
           toggleSelectedComment={toggleSelectedComment}
-          commentsVisible={commentsVisible}
         />
       )}
       {loading && <p> Loading...</p>}

@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Auths from "./components/Auth";
+import "./styles/reset.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

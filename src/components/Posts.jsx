@@ -8,7 +8,6 @@ export default function Posts({
     <div>
       {selectedPost && (
         <div>
-          {/* TODO: change this to the correct sytledComponent component */}
           <div>
             <h3>{selectedPost.title}</h3>
             <p>{selectedPost.text}</p>

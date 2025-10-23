@@ -2,31 +2,23 @@ import { useContext } from "react";
 import ApiCall from "../apiCalls";
 import AuthContext from "../AuthContext";
 import { Link } from "react-router";
+import style from "../styles/heading.module.css";
 
 const Comments = ({ toggleSelectedComment, selectedComment, selectedPost }) => {
   const { isLoggedIn, email } = useContext(AuthContext);
 
   const addComment = async (formData) => {
-    if (selectedComment) {
-      const confirm = await ApiCall.createComment(
-        formData,
-        selectedPost.id,
-        selectedComment.id,
-        email,
-      );
-      console.log(confirm.status);
-    } else {
-      const confirm = await ApiCall.createComment(
-        formData,
-        selectedPost.id,
-        email,
-      );
-      console.log(confirm.status);
-    }
+    const confirm = await ApiCall.createComment(
+      formData,
+      selectedPost.id,
+      selectedComment ? selectedComment.id : null,
+      email,
+    );
+    console.log(confirm.status);
   };
 
   return (
-    <div id="comments">
+    <div id="comments" className={style.headingTitle}>
       {selectedComment && (
         <div>
           <button onClick={() => toggleSelectedComment(null)}>
