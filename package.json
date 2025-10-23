@@ -11,12 +11,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@styled/typescript-styled-plugin": "^1.0.1",
     "axios": "^1.11.0",
     "react": "^19.1.1",
+    "react-css-modules": "^4.7.11",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.3",
-    "styled-components": "^6.1.19",
-    "swr": "^2.3.6"
+    "swr": "^2.3.6",
+    "typescript": "^5.9.3",
+    "typescript-styled-plugin": "^0.18.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

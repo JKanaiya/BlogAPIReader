@@ -1,0 +1,3 @@
+.headingTitle {
+  composes: titleFont from "./colors.module.css";
+}
