@@ -22,16 +22,16 @@ const ApiCall = (function () {
     },
   );
 
-  // const attemptCall = async function (call) {
-  //   const token = getToken();
-  //   return token != null ? await call : "Token is invalid";
-  // };
-
   const signUp = async function (formData) {
-    const result = await api.post("sign-up", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
+    const result = await api
+      .post("sign-up", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        passwordConfirm: formData.get("passwordConfirm"),
+      })
+      .catch(function (err) {
+        return err.response;
+      });
     return result;
   };
 
@@ -40,10 +40,14 @@ const ApiCall = (function () {
   };
 
   const logIn = async function (formData) {
-    const result = await api.post("log-in", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
+    const result = await api
+      .post("log-in", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+      })
+      .catch(function (err) {
+        return err.response;
+      });
     return result;
   };
 

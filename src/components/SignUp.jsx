@@ -14,9 +14,9 @@ const SignUp = () => {
   const passMatch = useRef(null);
   const [login] = useOutletContext();
   const [errors, setErrors] = useState({
-    email: false,
-    password: false,
-    passMatch: false,
+    email: "",
+    password: "",
+    passMatch: "",
   });
   const nav = useNavigate();
 
@@ -26,31 +26,35 @@ const SignUp = () => {
     if (!validatePassword()) return false;
 
     if (!passwordConfirm) {
-      setErrors(...errors, { passwordMatch: false });
+      setErrors(...errors, { passwordMatch: "Passwords do not Match!" });
       return false;
     }
 
-    setErrors({});
+    setErrors({
+      email: "",
+      password: "",
+      passMatch: "",
+    });
+
+    return true;
   };
 
   const validateEmail = () => {
     if (Validate.email(email.current)) {
-      setErrors({ ...errors, email: false });
-      console.log(errors);
-      return false;
-    } else {
-      setErrors({ ...errors, email: true });
-      console.log(errors);
+      setErrors({ ...errors, email: "" });
       return true;
+    } else {
+      setErrors({ ...errors, email: "Invalid Email" });
+      return false;
     }
   };
 
   const validatePassword = () => {
     if (Validate.password(password.current)) {
-      setErrors({ ...errors, password: false });
+      setErrors({ ...errors, password: "" });
       return true;
     } else {
-      setErrors({ ...errors, password: true });
+      setErrors({ ...errors, password: "Password must be at min 8 chars" });
       return false;
     }
   };
@@ -63,16 +67,13 @@ const SignUp = () => {
     password.current = e.target.value;
   };
 
-  const changePassMatch = (e) => {
-    passMatch.current = e.target.value;
-  };
-
   const validatePassMatch = (e) => {
+    passMatch.current = e.target.value;
     setPasswordConfirm(e.target.value);
     if (passwordConfirm && passwordConfirm == password) {
-      setErrors({ ...errors, passMatch: false });
+      setErrors({ ...errors, passMatch: "" });
     } else {
-      setErrors({ ...errors, passMatch: true });
+      setErrors({ ...errors, passMatch: "Passwords do not match!" });
     }
   };
 
@@ -80,6 +81,23 @@ const SignUp = () => {
     if (!validateForm()) return;
 
     const confirm = await ApiCall.signUp(formData);
+
+    if (confirm.data.errors) {
+      confirm.data.errors.forEach((err) => {
+        switch (err.path) {
+          case "email":
+            setErrors({ ...errors, email: err.msg });
+            break;
+          case "password":
+            setErrors({ ...errors, password: err.msg });
+            break;
+          case "passwordConfirm":
+            setErrors({ ...errors, passMatch: err.msg });
+            console.log(errors);
+            break;
+        }
+      });
+    }
 
     if (confirm.status == 200) {
       const loginConfirm = await ApiCall.logIn(formData);
@@ -102,7 +120,7 @@ const SignUp = () => {
         <p className={text.italicText}>to join the conversation</p>
         <form action={attemptSignIn} className={auth.form}>
           <div className={auth.inputContainer}>
-            {errors.email && <div className={auth.error}>Invalid Email</div>}
+            {errors.email && <div className={auth.error}>{errors.email}</div>}
             <input
               className={auth.input}
               type="text"
@@ -116,7 +134,7 @@ const SignUp = () => {
           </div>
           <div className={auth.inputContainer}>
             {errors.password && (
-              <div className={auth.error}>Password must be at min 8 chars</div>
+              <div className={auth.error}>{errors.password}</div>
             )}
             <input
               className={auth.input}
@@ -130,8 +148,8 @@ const SignUp = () => {
             />
           </div>
           <div className={auth.inputContainer}>
-            {passwordConfirm && !(password.current == passwordConfirm) && (
-              <div className={auth.error}>Passwords do not Match!</div>
+            {passwordConfirm && errors.passMatch && (
+              <div className={auth.error}>{errors.passMatch}</div>
             )}
             <input
               className={auth.input}

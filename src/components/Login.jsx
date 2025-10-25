@@ -13,32 +13,11 @@ const Login = () => {
   const password = useRef(null);
   const email = useRef(null);
   const [errors, setErrors] = useState({
-    email: false,
-    password: false,
-    passMatch: false,
+    email: "",
+    password: "",
+    passMatch: "",
+    invalidCredentials: "",
   });
-
-  const validateEmail = () => {
-    if (Validate.email(email.current)) {
-      setErrors({ ...errors, email: false });
-      console.log(errors);
-      return false;
-    } else {
-      setErrors({ ...errors, email: true });
-      console.log(errors);
-      return true;
-    }
-  };
-
-  const validatePassword = () => {
-    if (Validate.password(password.current)) {
-      setErrors({ ...errors, password: false });
-      return true;
-    } else {
-      setErrors({ ...errors, password: true });
-      return false;
-    }
-  };
 
   const changeEmail = (e) => {
     email.current = e.target.value;
@@ -48,18 +27,58 @@ const Login = () => {
     password.current = e.target.value;
   };
 
+  const validateEmail = () => {
+    if (Validate.email(email.current)) {
+      setErrors({ ...errors, email: "" });
+      return true;
+    } else {
+      setErrors({ ...errors, email: "Invalid Email" });
+      return false;
+    }
+  };
+
+  const validatePassword = () => {
+    if (Validate.password(password.current)) {
+      setErrors({ ...errors, password: "" });
+      return true;
+    } else {
+      setErrors({ ...errors, password: "Password must be at min 8 chars" });
+      return false;
+    }
+  };
+
   const validateForm = () => {
     if (!validateEmail()) return false;
 
     if (!validatePassword()) return false;
 
-    setErrors({});
+    setErrors({ email: "", password: "" });
+
+    return true;
   };
 
   const attemptLogin = async (formData) => {
     if (!validateForm()) return;
 
     const confirm = await ApiCall.logIn(formData);
+
+    console.log(confirm);
+
+    if (confirm.data.errors) {
+      confirm.data.errors.forEach((err) => {
+        switch (err.path) {
+          case "email":
+            setErrors({ ...errors, email: err.msg });
+            break;
+          case "password":
+            setErrors({ ...errors, password: err.msg });
+            break;
+          default:
+            setErrors({ ...errors, invalidCredentials: err.msg });
+        }
+      });
+    }
+
     if (confirm.status == 200) {
       localStorage.setItem("token", confirm.data.token);
       login(formData.get("email"));
@@ -77,7 +96,10 @@ const Login = () => {
         <p className={text.italicText}>to continue your conversation</p>
         <form className={auth.form} action={attemptLogin}>
           <div className={auth.inputContainer}>
-            {errors.email && <div className={auth.error}>Invalid Email</div>}
+            {errors.invalidCredentials && (
+              <div className={auth.error}>{errors.invalidCredentials}</div>
+            )}
+            {errors.email && <div className={auth.error}>{errors.email}</div>}
             <input
               className={auth.input}
               type="text"
@@ -90,7 +112,7 @@ const Login = () => {
           </div>
           <div className={auth.inputContainer}>
             {errors.password && (
-              <div className={auth.error}>Password must be at min 8 chars</div>
+              <div className={auth.error}>{errors.password}</div>
             )}
             <input
               className={auth.input}
