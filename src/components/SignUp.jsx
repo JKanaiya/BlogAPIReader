@@ -5,22 +5,80 @@ import text from "../styles/text.module.css";
 import auth from "../styles/auth.module.css";
 import { IoCloseOutline } from "react-icons/io5";
 import { Link } from "react-router";
+import Validate from "../components/Validate";
 
 const SignUp = () => {
   const [passwordConfirm, setPasswordConfirm] = useState(null);
   const password = useRef(null);
+  const email = useRef(null);
+  const passMatch = useRef(null);
   const [login] = useOutletContext();
+  const [errors, setErrors] = useState({
+    email: false,
+    password: false,
+    passMatch: false,
+  });
   const nav = useNavigate();
 
-  const updatePassConfirm = (e) => {
-    setPasswordConfirm(e.target.value);
+  const validateForm = () => {
+    if (!validateEmail()) return false;
+
+    if (!validatePassword()) return false;
+
+    if (!passwordConfirm) {
+      setErrors(...errors, { passwordMatch: false });
+      return false;
+    }
+
+    setErrors({});
+  };
+
+  const validateEmail = () => {
+    if (Validate.email(email.current)) {
+      setErrors({ ...errors, email: false });
+      console.log(errors);
+      return false;
+    } else {
+      setErrors({ ...errors, email: true });
+      console.log(errors);
+      return true;
+    }
+  };
+
+  const validatePassword = () => {
+    if (Validate.password(password.current)) {
+      setErrors({ ...errors, password: false });
+      return true;
+    } else {
+      setErrors({ ...errors, password: true });
+      return false;
+    }
+  };
+
+  const changeEmail = (e) => {
+    email.current = e.target.value;
   };
 
   const changePassword = (e) => {
     password.current = e.target.value;
   };
 
+  const changePassMatch = (e) => {
+    passMatch.current = e.target.value;
+  };
+
+  const validatePassMatch = (e) => {
+    setPasswordConfirm(e.target.value);
+    if (passwordConfirm && passwordConfirm == password) {
+      setErrors({ ...errors, passMatch: false });
+    } else {
+      setErrors({ ...errors, passMatch: true });
+    }
+  };
+
   const attemptSignIn = async (formData) => {
+    if (!validateForm()) return;
+
     const confirm = await ApiCall.signUp(formData);
 
     if (confirm.status == 200) {
@@ -43,31 +101,47 @@ const SignUp = () => {
         <h1 className={text.headingTitle}>Sign in</h1>
         <p className={text.italicText}>to join the conversation</p>
         <form action={attemptSignIn} className={auth.form}>
-          <input
-            className={auth.input}
-            type="text"
-            name="email"
-            id="email"
-            placeholder="Email"
-          />
-          <input
-            className={auth.input}
-            type="password"
-            name="password"
-            id=""
-            onBlur={changePassword}
-            placeholder="Password"
-          />
-          <input
-            className={auth.input}
-            type="password"
-            name="passwordConfirm"
-            placeholder="Confirm Password"
-            onChange={updatePassConfirm}
-          />
-          {passwordConfirm && !(password.current == passwordConfirm) && (
-            <p>"Passwords do not Match!"</p>
-          )}
+          <div className={auth.inputContainer}>
+            {errors.email && <div className={auth.error}>Invalid Email</div>}
+            <input
+              className={auth.input}
+              type="text"
+              name="email"
+              id="email"
+              required
+              onBlur={validateEmail}
+              onChange={changeEmail}
+              placeholder="Email"
+            />
+          </div>
+          <div className={auth.inputContainer}>
+            {errors.password && (
+              <div className={auth.error}>Password must be at min 8 chars</div>
+            )}
+            <input
+              className={auth.input}
+              type="password"
+              name="password"
+              id=""
+              required
+              onBlur={validatePassword}
+              onChange={changePassword}
+              placeholder="Password"
+            />
+          </div>
+          <div className={auth.inputContainer}>
+            {passwordConfirm && !(password.current == passwordConfirm) && (
+              <div className={auth.error}>Passwords do not Match!</div>
+            )}
+            <input
+              className={auth.input}
+              type="password"
+              name="passwordConfirm"
+              placeholder="Confirm Password"
+              required
+              onChange={validatePassMatch}
+            />
+          </div>
           <button className={auth.button} type="submit">
             Submit
           </button>

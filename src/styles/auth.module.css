@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 20px;
+  row-gap: 30px;
   position: relative;
 }
 
@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  row-gap: 2.5rem;
+  row-gap: 50px;
   align-items: center;
   min-width: 60%;
 }
@@ -54,6 +54,20 @@
   right: 30px;
 }
 
+.error {
+  composes: error from "../colors.module.css";
+  font-size: 0.9rem;
+  font-family: "ubuntu";
+  /* composes: errorContainer from "../colors.module.css"; */
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 10px;
+}
+
 @media screen and (max-width: 800px) {
   .background {
     justify-content: center;
@@ -64,7 +78,6 @@
     min-width: 80%;
     min-height: 90dvh;
     max-height: 80dvh;
-    row-gap: 30px;
   }
   .input {
     min-width: 80%;
@@ -73,11 +86,11 @@
 
 @media screen and (max-width: 400px) {
   .background {
-    align-items: start;
+    align-items: center;
   }
   .authCard {
     border-radius: 0px;
-    min-height: 50dvh;
+    max-height: 60%;
     min-width: 100%;
     row-gap: 15px;
   }

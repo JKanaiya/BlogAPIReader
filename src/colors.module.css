@@ -27,6 +27,14 @@
   font-family: "Lobster", sans-serif;
 }
 
+.error {
+  color: oklch(0.6323 0.2516 22);
+}
+
+.errorContainer {
+  background-color: oklch(0.8323 0.2516 22);
+}
+
 .button {
   composes: softWhite;
   composes: primaryColor;
