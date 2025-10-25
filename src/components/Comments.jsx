@@ -2,7 +2,7 @@ import { useContext } from "react";
 import ApiCall from "../apiCalls";
 import AuthContext from "../AuthContext";
 import { Link } from "react-router";
-import style from "../styles/heading.module.css";
+import text from "../styles/text.module.css";
 
 const Comments = ({
   toggleSelectedComment,
@@ -40,7 +40,7 @@ const Comments = ({
   };
 
   return (
-    <div id="comments" className={style.headingTitle}>
+    <div id="comments" className={text.headingTitle}>
       {selectedComment && (
         <div>
           <button onClick={() => toggleSelectedComment(null)}>

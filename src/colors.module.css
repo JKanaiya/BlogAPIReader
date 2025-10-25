@@ -1,21 +1,22 @@
 .bgColor {
-  background-color: hsl(218, 36%, 13%),
+  background-color: hsl(218, 36%, 13%);
 }
 
 .primaryColor {
-  color: hsl(218, 60%, 50%)
+  /* color: hsl(218, 60%, 50%); */
+  background-color: oklch(50% 0.6 218);
 }
 
 .softWhite {
-  color: hsl(0, 0, 95%);
+  color: oklch(90% 0 90);
 }
 
 .softerWhite {
-  color: hsl(0, 0, 60%);
+  color: oklch(80% 0 90);
 }
 
-.secondaryContainer{
-  color: hsl(218, 23%, 28%)
+.secondaryContainer {
+  color: hsl(218, 23%, 28%);
 }
 
 .titleFont {
@@ -24,4 +25,9 @@
 
 .italicFont {
   font-family: "Lobster", sans-serif;
+}
+
+.button {
+  composes: softWhite;
+  composes: primaryColor;
 }
