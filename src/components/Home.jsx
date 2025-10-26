@@ -43,7 +43,6 @@ export default function Home() {
 
   const updateComments = (selectedPost, comment) => {
     const postIndex = data.findIndex((post) => post.id == selectedPost.id);
-    console.log(comment);
     mutate({ ...data[postIndex].Comment, comment }, { revalidate: true });
     setSelectedPost({
       ...selectedPost,
