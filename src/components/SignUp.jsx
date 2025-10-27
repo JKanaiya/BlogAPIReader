@@ -3,6 +3,7 @@ import ApiCall from "../apiCalls";
 import { useOutletContext, useNavigate } from "react-router";
 import text from "../styles/text.module.css";
 import auth from "../styles/auth.module.css";
+import icons from "../styles/icons.module.css";
 import { IoCloseOutline } from "react-icons/io5";
 import { Link } from "react-router";
 import Validate from "../components/Validate";
@@ -113,7 +114,7 @@ const SignUp = () => {
   return (
     <div className={auth.background}>
       <div className={auth.authCard}>
-        <Link className={auth.closeIcon} to="/">
+        <Link className={icons.closeIcon} to="/">
           <IoCloseOutline />
         </Link>
         <h1 className={text.headingTitle}>Sign in</h1>

@@ -1,0 +1,17 @@
+.closeIcon {
+  composes: softWhite from "../colors.module.css";
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.comment {
+  composes: softWhite from "../colors.module.css";
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}

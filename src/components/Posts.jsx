@@ -1,3 +1,9 @@
+import posts from "../styles/posts.module.css";
+import text from "../styles/text.module.css";
+import icons from "../styles/icons.module.css";
+import { IoCloseOutline } from "react-icons/io5";
+import { Link } from "react-router";
+
 export default function Posts({
   data,
   toggleSelectedPost,
@@ -5,21 +11,24 @@ export default function Posts({
   toggleComments,
 }) {
   return (
-    <div>
+    <div className={posts.container}>
       {selectedPost && (
-        <div>
-          <div>
-            <h3>{selectedPost.title}</h3>
-            <p>{selectedPost.text}</p>
+        <div className={posts.selectedContainer}>
+          <span className={icons.closeIcon} onClick={toggleSelectedPost}>
+            <IoCloseOutline />
+          </span>
+          <div className={posts.selectedPost}>
+            <h3 className={text.headingTitle}>{selectedPost.title}</h3>
+            <p className={text.baseText}>{selectedPost.text}</p>
           </div>
-          <button onClick={toggleComments}>toggle Comments</button>
         </div>
       )}
       {!data && <p> "No Posts are Available"</p>}
       {!selectedPost &&
         data.map((post) => (
-          <div key={post.id}>
+          <div className={posts.post} key={post.id}>
             <h3>{post.title}</h3>
+            <p>{post.text}</p>
             <button onClick={() => toggleSelectedPost(post)}>
               see{post.id}
             </button>

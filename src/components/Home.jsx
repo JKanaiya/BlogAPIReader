@@ -5,6 +5,9 @@ import Posts from "./Posts";
 import { useContext, useState } from "react";
 import { Link } from "react-router";
 import AuthContext from "../AuthContext";
+import { BiSolidComment, BiSolidCommentX } from "react-icons/bi";
+import home from "../styles/home.module.css";
+import icons from "../styles/icons.module.css";
 
 export default function Home() {
   const [commentsVisible, setCommentsVisible] = useState(false);
@@ -43,15 +46,38 @@ export default function Home() {
 
   const updateComments = (selectedPost, comment) => {
     const postIndex = data.findIndex((post) => post.id == selectedPost.id);
-    mutate({ ...data[postIndex].Comment, comment }, { revalidate: true });
-    setSelectedPost({
-      ...selectedPost,
-      Comment: [...selectedPost.Comment, comment],
-    });
+    if (comment.selectedCommentId) {
+      const commentIndex = selectedPost.Comment.findIndex(
+        (comment) => comment.id == selectedComment.id,
+      );
+      mutate(
+        { ...data[postIndex].Comment[commentIndex].subComments, comment },
+        { populateCache: true, revalidate: true },
+      );
+      setSelectedComment({
+        ...selectedComment,
+        subComments: [...selectedComment.subComments, comment],
+      });
+    } else {
+      mutate({ ...data[postIndex].Comment, comment }, { revalidate: true });
+      setSelectedPost({
+        ...selectedPost,
+        Comment: [...selectedPost.Comment, comment],
+      });
+    }
   };
 
   return (
-    <div>
+    <div className={home.container}>
+      {selectedPost && (
+        <div className={icons.comment}>
+          {commentsVisible && selectedPost ? (
+            <BiSolidCommentX onClick={toggleComments} />
+          ) : (
+            <BiSolidComment onClick={toggleComments} />
+          )}
+        </div>
+      )}
       {commentsVisible && (
         <Comments
           updateComments={updateComments}
@@ -71,12 +97,12 @@ export default function Home() {
           toggleComments={toggleComments}
         />
       )}
-      {!isLoggedIn && (
-        <div>
-          <Link to="/auth/sign-up">Signup</Link>
-          <Link to="/auth/log-in">Login</Link>
-        </div>
-      )}
+      {/* {!isLoggedIn && ( */}
+      {/*   <div> */}
+      {/*     <Link to="/auth/sign-up">Signup</Link> */}
+      {/*     <Link to="/auth/log-in">Login</Link> */}
+      {/*   </div> */}
+      {/* )} */}
     </div>
   );
 }

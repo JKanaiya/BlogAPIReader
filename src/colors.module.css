@@ -2,8 +2,11 @@
   background-color: hsl(218, 36%, 13%);
 }
 
+.secondaryContainer {
+  background-color: oklch(0.3516 0.032 260.37);
+}
+
 .primaryColor {
-  /* color: hsl(218, 60%, 50%); */
   background-color: oklch(50% 0.6 218);
 }
 
@@ -13,6 +16,18 @@
 
 .softerWhite {
   color: oklch(80% 0 90);
+}
+
+.containerLow {
+  background-color: oklch(80% 0 90);
+}
+
+.containerHigh {
+  background-color: oklch(90% 0 90);
+}
+
+.title {
+  color: oklch(20% 0 90);
 }
 
 .secondaryContainer {
@@ -36,6 +51,5 @@
 }
 
 .button {
-  composes: softWhite;
   composes: primaryColor;
 }

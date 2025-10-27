@@ -39,19 +39,12 @@
 .button {
   composes: button from "../colors.module.css";
   composes: buttonText from "./text.module.css";
+  composes: softWhite from "../colors.module.css";
   cursor: pointer;
   border-radius: 10px;
   border: none;
   min-width: 40%;
   padding: 2%;
-}
-
-.closeIcon {
-  composes: softWhite from "../colors.module.css";
-  font-size: 30px;
-  position: absolute;
-  top: 30px;
-  right: 30px;
 }
 
 .error {

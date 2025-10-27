@@ -13,6 +13,7 @@
 
 .baseText {
   composes: softerWhite from "../colors.module.css";
+  text-wrap: pretty;
 }
 
 .italicText {

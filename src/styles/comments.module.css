@@ -1,0 +1,18 @@
+.container {
+  composes: containerLow from "../colors.module.css";
+  display: flex;
+  padding: 2%;
+  flex-direction: column;
+  border-radius: 10px;
+  position: absolute;
+  top: 10%;
+  left: 10px;
+  z-index: 10;
+  overflow-y: scroll;
+  max-height: 80dvh;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+}
