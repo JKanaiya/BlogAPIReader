@@ -1,12 +1,30 @@
-.container {
+.body {
   composes: bgColor from "../colors.module.css";
-  min-height: 100dvh;
-  /* justify-content: center; */
-  padding: 7% 2%;
-  column-gap: 20px;
+  height: 100svh;
+  scrollbar-width: none;
+  row-gap: 10px;
+}
+
+.container {
+  min-height: 90dvh;
   display: flex;
+  place-self: end;
+  scrollbar-width: none;
   justify-content: center;
-  /* flex-direction: column; */
-  /* align-items: center; */
-  /* position: relative; */
+}
+
+.navigation {
+  composes: bgColor from "../colors.module.css";
+  padding: 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 2px 0.1px 1px 0.1px oklch(90% 0 90);
+}
+
+.menuBar {
+  display: flex;
+  composes: softWhite from "../colors.module.css";
+  font-size: 30px;
+  column-gap: 20px;
 }

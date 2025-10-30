@@ -7,7 +7,11 @@ import { Link } from "react-router";
 import AuthContext from "../AuthContext";
 import { BiSolidComment, BiSolidCommentX } from "react-icons/bi";
 import home from "../styles/home.module.css";
+import text from "../styles/text.module.css";
 import icons from "../styles/icons.module.css";
+import { RiSearch2Line } from "react-icons/ri";
+import { TiWeatherNight } from "react-icons/ti";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function Home() {
   const [commentsVisible, setCommentsVisible] = useState(false);
@@ -68,41 +72,51 @@ export default function Home() {
   };
 
   return (
-    <div className={home.container}>
-      {selectedPost && (
-        <div className={icons.comment}>
-          {commentsVisible && selectedPost ? (
-            <BiSolidCommentX onClick={toggleComments} />
-          ) : (
-            <BiSolidComment onClick={toggleComments} />
-          )}
+    <div className={home.body}>
+      <div className={home.navigation}>
+        <h1 className={text.headingTitle}>Blog API</h1>
+        <div className={home.menuBar}>
+          <RiSearch2Line />
+          <TiWeatherNight />
+          <RxHamburgerMenu />
         </div>
-      )}
-      {commentsVisible && (
-        <Comments
-          updateComments={updateComments}
-          selectedComment={selectedComment}
-          selectedPost={selectedPost}
-          toggleSelectedComment={toggleSelectedComment}
-          data={data}
-        />
-      )}
-      {loading && <p> Loading...</p>}
-      {error && <p> Error = {error}</p>}
-      {data && (
-        <Posts
-          data={data}
-          toggleSelectedPost={toggleSelectedPost}
-          selectedPost={selectedPost}
-          toggleComments={toggleComments}
-        />
-      )}
-      {/* {!isLoggedIn && ( */}
-      {/*   <div> */}
-      {/*     <Link to="/auth/sign-up">Signup</Link> */}
-      {/*     <Link to="/auth/log-in">Login</Link> */}
-      {/*   </div> */}
-      {/* )} */}
+      </div>
+      <div className={home.container}>
+        {selectedPost && (
+          <div className={icons.comment}>
+            {commentsVisible && selectedPost ? (
+              <BiSolidCommentX onClick={toggleComments} />
+            ) : (
+              <BiSolidComment onClick={toggleComments} />
+            )}
+          </div>
+        )}
+        {commentsVisible && (
+          <Comments
+            updateComments={updateComments}
+            selectedComment={selectedComment}
+            selectedPost={selectedPost}
+            toggleSelectedComment={toggleSelectedComment}
+            data={data}
+          />
+        )}
+        {loading && <p> Loading...</p>}
+        {error && <p> Error = {error}</p>}
+        {data && (
+          <Posts
+            data={data}
+            toggleSelectedPost={toggleSelectedPost}
+            selectedPost={selectedPost}
+            toggleComments={toggleComments}
+          />
+        )}
+        {/* {!isLoggedIn && ( */}
+        {/*   <div> */}
+        {/*     <Link to="/auth/sign-up">Signup</Link> */}
+        {/*     <Link to="/auth/log-in">Login</Link> */}
+        {/*   </div> */}
+        {/* )} */}
+      </div>
     </div>
   );
 }

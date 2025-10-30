@@ -15,7 +15,7 @@
 }
 
 .softerWhite {
-  color: oklch(80% 0 90);
+  color: oklch(70% 0 90);
 }
 
 .containerLow {
@@ -27,7 +27,7 @@
 }
 
 .title {
-  color: oklch(20% 0 90);
+  color: oklch(90% 0 90);
 }
 
 .secondaryContainer {

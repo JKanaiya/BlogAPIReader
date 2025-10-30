@@ -11,9 +11,28 @@
     sans-serif;
 }
 
+.h3 {
+  composes: softWhite from "../colors.module.css";
+  font:
+    1.3rem / 2em "Ubuntu",
+    sans-serif;
+}
+
 .baseText {
+  display: flex;
+  min-width: 0px;
+  overflow: hidden;
   composes: softerWhite from "../colors.module.css";
-  text-wrap: pretty;
+  text-wrap: wrap;
+}
+
+.author {
+  composes: baseText;
+  display: flex;
+  min-width: 0px;
+  font:
+    0.9rem / 2em "Ubuntu",
+    sans-serif;
 }
 
 .italicText {

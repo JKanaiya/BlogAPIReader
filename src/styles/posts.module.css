@@ -1,18 +1,52 @@
+/* .container { */
+/*   min-height: 90dvh; */
+/*   min-width: min(65%, 800px); */
+/*   max-width: min(55%, 550px); */
+/*   max-height: 80dvh; */
+/*   padding: 1%; */
+/*   composes: secondaryContainer from "../colors.module.css"; */
+/*   align-items: center; */
+/*   display: flex; */
+/*   flex-wrap: wrap; */
+/*   position: relative; */
+/*   border-radius: 10px; */
+/*   flex-direction: column; */
+/*   overflow-y: scroll; */
+/*   gap: 20px; */
+/* } */
+
 .container {
-  min-height: 90dvh;
-  min-width: min(65%, 800px);
-  max-width: min(55%, 550px);
-  max-height: 80dvh;
-  padding: 1%;
-  composes: secondaryContainer from "../colors.module.css";
-  align-items: center;
+  /* margin-top: 10px; */
   display: flex;
-  flex-wrap: wrap;
-  position: relative;
-  border-radius: 10px;
   flex-direction: column;
-  overflow-y: scroll;
-  gap: 20px;
+  animation: mask-up;
+  /* animation-timeline: scroll(self); */
+  /* animation-range: 0 1rem; */
+  position: relative;
+  mask-composite: exclude;
+  max-height: 85dvh;
+  row-gap: 35px;
+  padding: 1%;
+  max-width: 50%;
+  min-width: 50%;
+  scrollbar-width: none;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+@keyframes mask-up {
+  to {
+    mask-size:
+      100% 120px,
+      100% 100%;
+  }
+}
+
+.top {
+  display: flex;
+  column-gap: 10px;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .height {
@@ -20,23 +54,46 @@
 }
 
 .container > * {
-  flex: 1 1 10em;
+  flex: 1 1 10%;
 }
 
 .post {
-  composes: containerLow from "../colors.module.css";
+  /* composes: containerLow from "../colors.module.css"; */
   composes: title from "../colors.module.css";
   padding: 3%;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+  flex-grow: 1;
   border-radius: 10px;
-  width: max(47%, 15rem);
+  position: relative;
+  /* border: 0.01em solid oklch(0.6721 0.032 260.37); */
+  box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37);
+  /* width: max(47%, 15rem); */
+}
+
+.iconButton {
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.preview {
+  display: flex;
+  column-gap: 20px;
+  max-height: 200px;
+  justify-content: space-between;
 }
 
 .selectedContainer {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -62,9 +119,6 @@
 }
 
 @media screen and (max-width: 600px) {
-  .container {
-    max-height: none;
-  }
   .post {
     min-width: 90%;
   }
