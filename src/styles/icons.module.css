@@ -15,3 +15,10 @@
   top: 30px;
   left: 30px;
 }
+
+.search {
+  font-size: 25px;
+  flex-shrink: 0;
+  composes: softWhite from "../colors.module.css";
+  min-width: 0px;
+}

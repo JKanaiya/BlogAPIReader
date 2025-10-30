@@ -8,6 +8,7 @@ import AuthContext from "../AuthContext";
 import { BiSolidComment, BiSolidCommentX } from "react-icons/bi";
 import home from "../styles/home.module.css";
 import text from "../styles/text.module.css";
+import auth from "../styles/auth.module.css";
 import icons from "../styles/icons.module.css";
 import { RiSearch2Line } from "react-icons/ri";
 import { TiWeatherNight } from "react-icons/ti";
@@ -20,9 +21,15 @@ export default function Home() {
 
   const [selectedPost, setSelectedPost] = useState(null);
 
+  const [filter, setFilter] = useState(null);
+
   const getPosts = async (url) => {
     const posts = await axios.get(url + "posts");
     return posts.data;
+  };
+
+  const searchPosts = (e) => {
+    setFilter(e.target.value);
   };
 
   const { isLoggedIn } = useContext(AuthContext);
@@ -75,8 +82,18 @@ export default function Home() {
     <div className={home.body}>
       <div className={home.navigation}>
         <h1 className={text.headingTitle}>Blog API</h1>
+        <div className={home.searchContainer}>
+          <RiSearch2Line className={icons.search} />
+          <input
+            type="text"
+            name="search"
+            id=""
+            placeholder="Search"
+            className={home.input}
+            onChange={searchPosts}
+          />
+        </div>
         <div className={home.menuBar}>
-          <RiSearch2Line />
           <TiWeatherNight />
           <RxHamburgerMenu />
         </div>
@@ -97,14 +114,21 @@ export default function Home() {
             selectedComment={selectedComment}
             selectedPost={selectedPost}
             toggleSelectedComment={toggleSelectedComment}
-            data={data}
           />
         )}
         {loading && <p> Loading...</p>}
         {error && <p> Error = {error}</p>}
         {data && (
           <Posts
-            data={data}
+            data={
+              filter
+                ? data.filter(
+                    (post) =>
+                      post.text.toLowerCase().includes(filter.toLowerCase()) ||
+                      post.title.toLowerCase().includes(filter.toLowerCase()),
+                  )
+                : data
+            }
             toggleSelectedPost={toggleSelectedPost}
             selectedPost={selectedPost}
             toggleComments={toggleComments}

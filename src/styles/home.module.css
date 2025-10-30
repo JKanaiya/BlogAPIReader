@@ -28,3 +28,16 @@
   font-size: 30px;
   column-gap: 20px;
 }
+
+.input {
+  padding: 1% 5%;
+  border: none;
+  border-radius: 5px;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.searchContainer {
+  min-width: 30%;
+  display: flex;
+  column-gap: 10px;
+}
