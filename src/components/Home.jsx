@@ -93,10 +93,6 @@ export default function Home() {
             onChange={searchPosts}
           />
         </div>
-        <div className={home.menuBar}>
-          <TiWeatherNight />
-          <RxHamburgerMenu />
-        </div>
       </div>
       <div className={home.container}>
         {selectedPost && (
