@@ -30,10 +30,15 @@
 }
 
 .input {
+  composes: softWhite from "../colors.module.css";
   padding: 1% 5%;
   border: none;
   border-radius: 5px;
   font-family: "Ubuntu", sans-serif;
+  background: rgba(236, 236, 236, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.8px);
+  -webkit-backdrop-filter: blur(13.8px);
 }
 
 .searchContainer {
@@ -42,10 +47,87 @@
   column-gap: 10px;
 }
 
+.addComment {
+  position: sticky;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  bottom: 0;
+}
+
+.addComment svg {
+  cursor: pointer;
+  color: oklch(70% 0 90);
+  font-size: 30px;
+}
+
+.addComment > input {
+  min-width: 90%;
+}
+
+.authCheck {
+  /* From https://css.glass */
+  background: rgba(236, 236, 236, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.8px);
+  -webkit-backdrop-filter: blur(13.8px);
+  padding: 2%;
+  align-items: center;
+  border-radius: 10px;
+  position: sticky;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  bottom: 0;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+}
+
+.authCheck a {
+  background-color: hsl(218, 36%, 13%);
+  padding: 4%;
+  margin-left: 10px;
+  border-radius: 10px;
+  font-family: "Anton SC";
+  margin-right: 10px;
+  column-gap: 10px;
+  text-decoration: none;
+  color: oklch(70% 0 90);
+}
+
+.authText {
+  composes: softerWhite from "../colors.module.css";
+  font-family: "Ubuntu";
+}
+
+button,
+input[type="submit"],
+input[type="reset"] {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 @media screen and (max-width: 800px) {
   .container {
     flex-direction: column;
     align-items: center;
     justify-content: start;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .authCheck {
+    flex-direction: column;
   }
 }

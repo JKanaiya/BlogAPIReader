@@ -1,22 +1,59 @@
 .container {
-  composes: containerLow from "../colors.module.css";
+  /* composes: containerLow from "../colors.module.css"; */
+  border: solid 1px black;
   display: flex;
   padding: 2%;
+  row-gap: 10px;
   flex-direction: column;
-  height: max-content;
+  max-height: 60dvh;
   margin-top: 30px;
+  min-width: 40%;
   border-radius: 10px;
   max-width: 50%;
+  box-shadow: inset 5px 5px 5px oklch(0.2003 0.032 260.37);
+  scrollbar-width: none;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
   flex-shrink: 0;
-  /* position: absolute; */
-  /* top: 13%; */
-  /* right: 10%; */
   z-index: 10;
   overflow-y: scroll;
   max-height: 80dvh;
 }
 
 .comment {
+  box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37);
+  composes: softWhite from "../colors.module.css";
+  padding: 5%;
+  border-radius: 10px;
+  justify-content: space-between;
+  display: flex;
+  position: relative;
+}
+
+.email {
+  composes: softerwhite from "../colors.module.css";
+  font:
+    bold 0.8rem / 2em "ubuntu",
+    sans-serif;
+}
+
+.content {
   display: flex;
   flex-direction: column;
+}
+
+.actions {
+  composes: softerwhite from "../colors.module.css";
+  composes: baseText from "../styles/text.module.css";
+  align-items: end;
+  cursor: pointer;
+  column-gap: 5px;
+  font-size: 15px;
+  display: flex;
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    min-width: 90%;
+  }
 }

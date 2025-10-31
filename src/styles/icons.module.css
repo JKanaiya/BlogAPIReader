@@ -2,9 +2,15 @@
   composes: softWhite from "../colors.module.css";
   font-size: 30px;
   cursor: pointer;
-  /* position: absolute; */
-  /* top: 5%; */
-  /* right: 5%; */
+}
+
+.authCloseIcon {
+  composes: softWhite from "../colors.module.css";
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 5%;
+  right: 5%;
 }
 
 .comment {

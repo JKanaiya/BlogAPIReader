@@ -13,7 +13,6 @@ function App() {
   const [email, setEmail] = useState(null);
 
   const login = (email) => {
-    console.log(email);
     setIsLoggedIn(true);
     setEmail(email);
   };

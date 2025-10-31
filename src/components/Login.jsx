@@ -90,7 +90,7 @@ const Login = () => {
   return (
     <div className={auth.background}>
       <div className={auth.authCard}>
-        <Link className={icons.closeIcon} to="/">
+        <Link className={icons.authCloseIcon} to="/">
           <IoCloseOutline />
         </Link>
         <h1 className={text.headingTitle}>LOGIN</h1>
