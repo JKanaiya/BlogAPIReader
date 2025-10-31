@@ -14,16 +14,18 @@
 .h3 {
   composes: softWhite from "../colors.module.css";
   font:
-    1.3rem / 2em "Ubuntu",
+    1.1rem / 2em "Ubuntu",
     sans-serif;
 }
 
 .baseText {
   display: flex;
   min-width: 0px;
+  max-width: 90%;
   overflow: hidden;
   composes: softerWhite from "../colors.module.css";
   text-wrap: wrap;
+  word-wrap: break-word;
 }
 
 .author {

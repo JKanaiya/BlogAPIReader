@@ -2,18 +2,18 @@
   composes: softWhite from "../colors.module.css";
   font-size: 30px;
   cursor: pointer;
-  position: absolute;
-  top: 5%;
-  right: 5%;
+  /* position: absolute; */
+  /* top: 5%; */
+  /* right: 5%; */
 }
 
 .comment {
   composes: softWhite from "../colors.module.css";
   font-size: 30px;
   cursor: pointer;
-  position: absolute;
-  top: 30px;
-  left: 30px;
+  /* position: absolute; */
+  /* top: 10%; */
+  /* right: 10%; */
 }
 
 .search {

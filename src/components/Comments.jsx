@@ -44,6 +44,7 @@ const Comments = ({
       }
       console.log(confirm.status);
     }
+    // TODO: ui should place the add comment input under any unique comment that is the selected comment. This means that the selectedComment should not load solo conditionally
   };
 
   return (

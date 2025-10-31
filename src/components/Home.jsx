@@ -5,16 +5,14 @@ import Posts from "./Posts";
 import { useContext, useState } from "react";
 import { Link } from "react-router";
 import AuthContext from "../AuthContext";
-import { BiSolidComment, BiSolidCommentX } from "react-icons/bi";
 import home from "../styles/home.module.css";
 import text from "../styles/text.module.css";
 import auth from "../styles/auth.module.css";
 import icons from "../styles/icons.module.css";
 import { RiSearch2Line } from "react-icons/ri";
-import { TiWeatherNight } from "react-icons/ti";
-import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function Home() {
+  // TODO: Pass this functionality to the selected post and place it where it is always available
   const [commentsVisible, setCommentsVisible] = useState(false);
 
   const [selectedComment, setSelectedComment] = useState(null);
@@ -39,7 +37,8 @@ export default function Home() {
   };
 
   const toggleSelectedComment = (comment) => {
-    setSelectedComment(selectedComment ? null : comment);
+    console.log(comment);
+    setSelectedComment(comment ? comment : null);
   };
 
   const toggleComments = () => {
@@ -95,23 +94,6 @@ export default function Home() {
         </div>
       </div>
       <div className={home.container}>
-        {selectedPost && (
-          <div className={icons.comment}>
-            {commentsVisible && selectedPost ? (
-              <BiSolidCommentX onClick={toggleComments} />
-            ) : (
-              <BiSolidComment onClick={toggleComments} />
-            )}
-          </div>
-        )}
-        {commentsVisible && (
-          <Comments
-            updateComments={updateComments}
-            selectedComment={selectedComment}
-            selectedPost={selectedPost}
-            toggleSelectedComment={toggleSelectedComment}
-          />
-        )}
         {loading && <p> Loading...</p>}
         {error && <p> Error = {error}</p>}
         {data && (
@@ -127,15 +109,18 @@ export default function Home() {
             }
             toggleSelectedPost={toggleSelectedPost}
             selectedPost={selectedPost}
+            commentsVisible={commentsVisible}
             toggleComments={toggleComments}
           />
         )}
-        {/* {!isLoggedIn && ( */}
-        {/*   <div> */}
-        {/*     <Link to="/auth/sign-up">Signup</Link> */}
-        {/*     <Link to="/auth/log-in">Login</Link> */}
-        {/*   </div> */}
-        {/* )} */}
+        {selectedPost && commentsVisible && (
+          <Comments
+            updateComments={updateComments}
+            selectedComment={selectedComment}
+            selectedPost={selectedPost}
+            toggleSelectedComment={toggleSelectedComment}
+          />
+        )}
       </div>
     </div>
   );

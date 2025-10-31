@@ -1,6 +1,6 @@
 .body {
   composes: bgColor from "../colors.module.css";
-  height: 100svh;
+  min-height: 100svh;
   scrollbar-width: none;
   row-gap: 10px;
 }
@@ -10,7 +10,7 @@
   display: flex;
   place-self: end;
   scrollbar-width: none;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .navigation {
@@ -40,4 +40,12 @@
   min-width: 30%;
   display: flex;
   column-gap: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+  }
 }

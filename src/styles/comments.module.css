@@ -3,10 +3,14 @@
   display: flex;
   padding: 2%;
   flex-direction: column;
+  height: max-content;
+  margin-top: 30px;
   border-radius: 10px;
-  position: absolute;
-  top: 10%;
-  left: 10px;
+  max-width: 50%;
+  flex-shrink: 0;
+  /* position: absolute; */
+  /* top: 13%; */
+  /* right: 10%; */
   z-index: 10;
   overflow-y: scroll;
   max-height: 80dvh;
