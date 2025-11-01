@@ -67,12 +67,14 @@ const ApiCall = (function () {
         });
   };
 
-  const updateComment = async function (formData) {
-    return await api.patch("comment", formData);
+  const updateComment = async function ({ commentId, text }) {
+    return await api.patch("comment", { commentId, text });
   };
 
-  const deleteComment = async function (formData) {
-    return await api.delete("comment", formData);
+  const deleteComment = async function ({ commentId }) {
+    return await api.post("comment", {
+      commentId,
+    });
   };
 
   return {
