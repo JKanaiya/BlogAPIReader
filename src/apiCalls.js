@@ -51,7 +51,7 @@ const ApiCall = (function () {
     return result;
   };
 
-  const createComment = async function (comment, postId, commentId, email) {
+  const createComment = async function ({ comment, postId, commentId, email }) {
     return commentId
       ? await api.put("comment", {
           comment,

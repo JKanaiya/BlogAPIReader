@@ -19,6 +19,8 @@ export default function Home() {
 
   const [selectedComment, setSelectedComment] = useState(null);
 
+  // TODO: find a way to add comment properly to the hirarchy. Use debugger
+
   const [selectedPost, setSelectedPost] = useState(null);
 
   const [filter, setFilter] = useState(null);
@@ -47,7 +49,9 @@ export default function Home() {
 
       let a = ob.subComments.findIndex((c) => c.id == selectedComment.id);
       if (a >= 0) {
-        ob.subComments[a].subComments = [];
+        if (!ob.subComments[a].subComments) {
+          ob.subComments[a].subComments = [];
+        }
         ob.subComments[a].subComments.push(comment);
         return ob;
       }
@@ -65,30 +69,48 @@ export default function Home() {
       (c) => c.id == selectedComment.id,
     );
 
-    if (parentIndex < 0) {
-      b.Comment.forEach((comment) => findComment(comment));
+    if (selectedComment) {
+      if (parentIndex < 0) {
+        b.Comment.forEach((comment) => findComment(comment));
 
-      setSelectedPost(b);
-      mutate({ ...data[postIndex], b }, { revalidate: true });
+        setSelectedPost(b);
+
+        let a = data;
+        a[postIndex] = b;
+
+        mutate(a, { revalidate: true });
+      } else {
+        let c = data[postIndex];
+        c.Comment[parentIndex].subComments.push(comment);
+
+        setSelectedPost(c);
+
+        mutate();
+      }
     } else {
-      mutate({ ...data[postIndex].Comment, comment }, { revalidate: true });
       setSelectedPost({
-        ...selectedPost,
+        ...data[postIndex],
         Comment: [...selectedPost.Comment, comment],
       });
+      mutate(
+        { ...data[postIndex], Comment: [...selectedPost.Comment, comment] },
+        { revalidate: true },
+      );
     }
   };
 
   const addComment = async (formData) => {
     if (selectedComment) {
-      const confirm = await ApiCall.createComment(
-        formData.get("comment"),
-        null,
-        selectedComment.id,
+      const confirm = await ApiCall.createComment({
+        comment: formData.get("comment"),
+        postId: null,
+        commentId: selectedComment.id,
         email,
-      );
+      });
+      console.log(confirm);
       if (confirm.status == 200) {
         updateComments(selectedPost, {
+          id: confirm.data.id,
           text: formData.get("comment"),
           postId: selectedPost.id,
           subComments: [""],
@@ -97,13 +119,14 @@ export default function Home() {
         });
       }
     } else {
-      const confirm = await ApiCall.createComment(
-        formData.get("comment"),
-        selectedPost.id,
+      const confirm = await ApiCall.createComment({
+        comment: formData.get("comment"),
+        postId: selectedPost.id,
         email,
-      );
+      });
       if (confirm.status == 200) {
         updateComments(selectedPost, {
+          id: confirm.data.id,
           text: formData.get("comment"),
           subComments: [""],
           postId: selectedPost.id,
