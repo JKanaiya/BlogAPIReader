@@ -12,14 +12,40 @@ import comment from "../styles/comments.module.css";
 import icons from "../styles/icons.module.css";
 import { RiSearch2Line } from "react-icons/ri";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export default function Home() {
-  // TODO: Pass this functionality to the selected post and place it where it is always available
   const [commentsVisible, setCommentsVisible] = useState(false);
 
   const [selectedComment, setSelectedComment] = useState(null);
 
-  // TODO: find a way to add comment properly to the hirarchy. Use debugger
+  const successNotify = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
+
+  const errorNotify = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
 
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -48,9 +74,14 @@ export default function Home() {
       if (ob.subComments.length == 0) return false;
 
       let a = ob.subComments.findIndex((c) => c.id == selectedComment.id);
+
       if (a >= 0) {
         if (!ob.subComments[a].subComments) {
           ob.subComments[a].subComments = [];
+        }
+        if (ob.subComments[a].subComments[0] === "") {
+          ob.subComments[a].subComments[0] = comment;
+          return ob;
         }
         ob.subComments[a].subComments.push(comment);
         return ob;
@@ -65,11 +96,11 @@ export default function Home() {
       });
     };
 
-    parentIndex = selectedPost.Comment.findIndex(
-      (c) => c.id == selectedComment.id,
-    );
-
     if (selectedComment) {
+      parentIndex = selectedPost.Comment.findIndex(
+        (c) => c.id == selectedComment.id,
+      );
+
       if (parentIndex < 0) {
         b.Comment.forEach((comment) => findComment(comment));
 
@@ -97,6 +128,7 @@ export default function Home() {
         { revalidate: true },
       );
     }
+    toggleSelectedComment();
   };
 
   const addComment = async (formData) => {
@@ -107,7 +139,6 @@ export default function Home() {
         commentId: selectedComment.id,
         email,
       });
-      console.log(confirm);
       if (confirm.status == 200) {
         updateComments(selectedPost, {
           id: confirm.data.id,
@@ -117,6 +148,10 @@ export default function Home() {
           selectedCommentId: selectedComment.id,
           User: { email },
         });
+
+        successNotify("Comment added successfully!");
+      } else {
+        errorNotify("Failed to add comment!");
       }
     } else {
       const confirm = await ApiCall.createComment({
@@ -132,6 +167,9 @@ export default function Home() {
           postId: selectedPost.id,
           User: { email },
         });
+        successNotify("Comment added successfully!");
+      } else {
+        errorNotify("Failed to add comment!");
       }
     }
   };
@@ -146,6 +184,10 @@ export default function Home() {
 
   const toggleComments = () => {
     setCommentsVisible(commentsVisible ? false : true);
+  };
+
+  const updateSelectedComment = (text) => {
+    setSelectedComment({ ...selectedComment, text: text });
   };
 
   const {
@@ -204,6 +246,8 @@ export default function Home() {
                       updateComments={updateComments}
                       selectedComment={selectedComment}
                       comment={comment}
+                      mutate={mutate}
+                      updateSelectedComment={updateSelectedComment}
                       selectedPost={selectedPost}
                       toggleSelectedComment={toggleSelectedComment}
                     />
@@ -236,6 +280,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

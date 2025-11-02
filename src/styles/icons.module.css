@@ -4,6 +4,18 @@
   cursor: pointer;
 }
 
+.commentDelete {
+  composes: softerWhite from "../colors.module.css";
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.commentEdit {
+  composes: softerWhite from "../colors.module.css";
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .authCloseIcon {
   composes: softWhite from "../colors.module.css";
   font-size: 30px;
