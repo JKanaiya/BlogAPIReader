@@ -26,9 +26,27 @@
   padding: 5%;
   margin-bottom: 15px;
   border-radius: 10px;
+  align-items: start;
   justify-content: space-between;
   display: flex;
   position: relative;
+}
+
+.edit {
+  display: flex;
+  column-gap: 10px;
+}
+
+.input {
+  composes: softWhite from "../colors.module.css";
+  /* padding: 1% 5%; */
+  border: none;
+  border-radius: 5px;
+  font-family: "Ubuntu", sans-serif;
+  background: rgba(236, 236, 236, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.8px);
+  -webkit-backdrop-filter: blur(13.8px);
 }
 
 .expand {
@@ -54,9 +72,6 @@
   composes: softerwhite from "../colors.module.css";
   composes: baseText from "../styles/text.module.css";
   align-items: center;
-  position: absolute;
-  bottom: 20%;
-  right: 20%;
   cursor: pointer;
   column-gap: 20px;
   font-size: 15px;

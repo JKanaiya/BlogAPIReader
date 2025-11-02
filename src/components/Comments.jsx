@@ -65,15 +65,17 @@ const Comments = ({
   };
 
   const updateComment = async (formData, comment) => {
+    const editedText = formData.get("editedText");
+
     const confirm = await ApiCall.updateComment({
       commentId: formData.get("commentId"),
-      text: formData.get("editedText"),
+      text: editedText,
     });
 
     if (confirm.status == 200) {
       toggleSelectedComment(comment);
 
-      updateSelectedComment(formData.get("editedText"));
+      updateSelectedComment({ editedText });
 
       comment.text = formData.get("editedText");
 
@@ -109,15 +111,25 @@ const Comments = ({
         <div className={comments.content}>
           <p className={comments.email}>{comment.User.email}</p>
           {editing ? (
-            <form action={(formData) => updateComment(formData, comment)}>
+            <form
+              action={(formData, event) =>
+                updateComment(formData, comment, event)
+              }
+              className={comments.edit}
+            >
               <input type="hidden" value={comment.id} name="commentId" />
               <input
                 type="text"
                 name="editedText"
                 defaultValue={comment.text}
+                className={home.input}
               />
-              <button className={home.button} type="submit">
-                <FaCheck />
+              <button
+                className={home.button}
+                type="submit"
+                style={{ display: "flex" }}
+              >
+                <FaCheck className={icons.edit} />
               </button>
             </form>
           ) : (
@@ -128,6 +140,8 @@ const Comments = ({
               Edited
             </p>
           )}
+        </div>
+        <div className={comments.actions}>
           {comment.User.email === email && (
             <div className={comments.actions}>
               <span
@@ -141,16 +155,16 @@ const Comments = ({
               </span>
             </div>
           )}
+          <div
+            style={{ fontSize: 20, color: "grey" }}
+            onClick={() => toggleSelectedComment(comment)}
+          >
+            <GoReply />
+          </div>
         </div>
         <span onClick={toggleOpen} className={comments.expand}>
           {!open ? <GoTriangleDown /> : <GoTriangleUp />}
         </span>
-        <div
-          style={{ fontSize: 20, color: "grey" }}
-          onClick={() => toggleSelectedComment(comment)}
-        >
-          <GoReply />
-        </div>
       </div>
       {comment.subComments &&
         comment.subComments[0] != "" &&
@@ -165,7 +179,9 @@ const Comments = ({
               <Comments
                 toggleSelectedComment={toggleSelectedComment}
                 selectedComment={selectedComment}
+                updateSelectedComment={updateSelectedComment}
                 comment={c}
+                mutate={mutate}
                 selectedPost={selectedPost}
                 updateComments={updateComments}
               />

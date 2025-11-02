@@ -12,40 +12,11 @@ import comment from "../styles/comments.module.css";
 import icons from "../styles/icons.module.css";
 import { RiSearch2Line } from "react-icons/ri";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export default function Home() {
   const [commentsVisible, setCommentsVisible] = useState(false);
 
   const [selectedComment, setSelectedComment] = useState(null);
-
-  const successNotify = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    });
-  };
-
-  const errorNotify = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    });
-  };
 
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -54,6 +25,10 @@ export default function Home() {
   const getPosts = async (url) => {
     const posts = await axios.get(url + "posts");
     return posts.data;
+  };
+
+  const updateSelectedComment = ({ editedText }) => {
+    setSelectedComment({ ...selectedComment, text: editedText });
   };
 
   const searchPosts = (e) => {
@@ -148,10 +123,6 @@ export default function Home() {
           selectedCommentId: selectedComment.id,
           User: { email },
         });
-
-        successNotify("Comment added successfully!");
-      } else {
-        errorNotify("Failed to add comment!");
       }
     } else {
       const confirm = await ApiCall.createComment({
@@ -167,9 +138,6 @@ export default function Home() {
           postId: selectedPost.id,
           User: { email },
         });
-        successNotify("Comment added successfully!");
-      } else {
-        errorNotify("Failed to add comment!");
       }
     }
   };
@@ -184,10 +152,6 @@ export default function Home() {
 
   const toggleComments = () => {
     setCommentsVisible(commentsVisible ? false : true);
-  };
-
-  const updateSelectedComment = (text) => {
-    setSelectedComment({ ...selectedComment, text: text });
   };
 
   const {
@@ -280,7 +244,6 @@ export default function Home() {
           </div>
         )}
       </div>
-      <ToastContainer />
     </div>
   );
 }
