@@ -12,13 +12,16 @@ import comment from "../styles/comments.module.css";
 import icons from "../styles/icons.module.css";
 import { RiSearch2Line } from "react-icons/ri";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import SelectionContext from "../selectionContext";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export default function Home() {
+  const { isLoggedIn, email } = useContext(AuthContext);
+  const { selectedPost, setSelectedPost } = useContext(SelectionContext);
+
   const [commentsVisible, setCommentsVisible] = useState(false);
 
   const [selectedComment, setSelectedComment] = useState(null);
-
-  const [selectedPost, setSelectedPost] = useState(null);
 
   const [filter, setFilter] = useState(null);
 
@@ -35,7 +38,33 @@ export default function Home() {
     setFilter(e.target.value);
   };
 
-  const { isLoggedIn, email } = useContext(AuthContext);
+  const successNotify = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
+
+  const errorNotify = (message) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
 
   const updateComments = (selectedPost, comment) => {
     const postIndex = data.findIndex((post) => post.id == selectedPost.id);
@@ -108,36 +137,56 @@ export default function Home() {
 
   const addComment = async (formData) => {
     if (selectedComment) {
-      const confirm = await ApiCall.createComment({
-        comment: formData.get("comment"),
-        postId: null,
-        commentId: selectedComment.id,
-        email,
-      });
-      if (confirm.status == 200) {
+      try {
+        const response = await ApiCall.createComment({
+          comment: formData.get("comment"),
+          postId: null,
+          commentId: selectedComment.id,
+          email,
+        });
+
+        if (!response.status == 200) {
+          throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
         updateComments(selectedPost, {
-          id: confirm.data.id,
+          id: response.data.id,
           text: formData.get("comment"),
           postId: selectedPost.id,
           subComments: [""],
           selectedCommentId: selectedComment.id,
           User: { email },
         });
+
+        successNotify("Successfully added comment!");
+      } catch (e) {
+        errorNotify("Failed to add comment!");
+        console.log(`Error adding comment: ${e}`);
       }
     } else {
-      const confirm = await ApiCall.createComment({
-        comment: formData.get("comment"),
-        postId: selectedPost.id,
-        email,
-      });
-      if (confirm.status == 200) {
+      try {
+        const response = await ApiCall.createComment({
+          comment: formData.get("comment"),
+          postId: selectedPost.id,
+          email,
+        });
+
+        if (!response.status == 200) {
+          throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
         updateComments(selectedPost, {
-          id: confirm.data.id,
+          id: response.data.id,
           text: formData.get("comment"),
           subComments: [""],
           postId: selectedPost.id,
           User: { email },
         });
+
+        successNotify("Successfully added comment!");
+      } catch (e) {
+        errorNotify("Failed to add comment!");
+        console.log(`Error adding comment: ${e}`);
       }
     }
   };
@@ -194,7 +243,6 @@ export default function Home() {
                 : data
             }
             toggleSelectedPost={toggleSelectedPost}
-            selectedPost={selectedPost}
             commentsVisible={commentsVisible}
             toggleComments={toggleComments}
           />
@@ -210,9 +258,10 @@ export default function Home() {
                       updateComments={updateComments}
                       selectedComment={selectedComment}
                       comment={comment}
+                      successNotify={successNotify}
+                      errorNotify={errorNotify}
                       mutate={mutate}
                       updateSelectedComment={updateSelectedComment}
-                      selectedPost={selectedPost}
                       toggleSelectedComment={toggleSelectedComment}
                     />
                   </div>
@@ -244,6 +293,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

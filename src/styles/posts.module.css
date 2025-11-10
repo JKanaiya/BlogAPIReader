@@ -6,7 +6,8 @@
   /* animation-range: 0 1rem; */
   position: relative;
   mask-composite: exclude;
-  max-height: 85dvh;
+  font-family: "Stack Sans Notch", sans-serif;
+  /* max-height: 85dvh; */
   row-gap: 35px;
   padding: 1%;
   max-width: 50%;
@@ -39,10 +40,17 @@
   flex: 1 1 10%;
 }
 
+.post > * {
+  padding: 2%;
+  border-radius: 10px;
+}
+
 .post {
-  /* composes: containerLow from "../colors.module.css"; */
-  composes: title from "../colors.module.css";
+  composes: softerWhite from "../colors.module.css";
+  background-color: oklch(0.1558 0.0456 260.37);
   padding: 3%;
+  max-height: 250px;
+  text-overflow: ellipsis;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -52,6 +60,11 @@
   /* border: 0.01em solid oklch(0.6721 0.032 260.37); */
   box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37);
   /* width: max(47%, 15rem); */
+}
+
+.post pre {
+  padding: 2%;
+  border-radius: 10px;
 }
 
 .iconButton {
@@ -73,12 +86,20 @@
 }
 
 .selectedContainer {
+  composes: softerWhite from "../colors.module.css";
+  background-color: oklch(0.1558 0.0456 260.37);
   width: 100%;
   min-height: 60dvh;
   overflow: hidden;
-  display: flex;
   box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37);
-  flex-direction: column;
+  max-height: 90dvh;
+  overflow-y: scroll;
+}
+
+.selectedContainer pre {
+  padding: 2%;
+  border-radius: 10px;
+  text-wrap: auto;
 }
 
 .actions {
@@ -94,15 +115,13 @@
 .selectedPost {
   display: flex;
   flex-direction: column;
-  padding: 5% 2%;
+  padding: 5%;
   min-height: 70%;
   row-gap: 10px;
-  max-width: 90%;
 }
 
 .selectedPost > * {
   min-height: 50%;
-  max-width: 80%;
   text-wrap: pretty;
 }
 

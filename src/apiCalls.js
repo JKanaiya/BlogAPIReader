@@ -51,16 +51,32 @@ const ApiCall = (function () {
     return result;
   };
 
+  const newPost = async function ({ text, email }) {
+    return await api.put("post", {
+      text,
+      email,
+    });
+  };
+
+  const editPost = async function ({ text, email, postId, published }) {
+    return await api.patch("post", {
+      text,
+      email,
+      postId,
+      published,
+    });
+  };
+
   const createComment = async function ({ comment, postId, commentId, email }) {
     return commentId
-      ? await api.put("comment", {
+      ? await api.post("comment", {
           comment,
           postId,
           commentId,
           email,
           parentComment: true,
         })
-      : await api.put("comment", {
+      : await api.post("comment", {
           comment,
           postId,
           email,
@@ -72,7 +88,7 @@ const ApiCall = (function () {
   };
 
   const deleteComment = async function ({ commentId }) {
-    return await api.post("comment", {
+    return await api.post("delete-comment", {
       commentId,
     });
   };
@@ -81,6 +97,8 @@ const ApiCall = (function () {
     signUp,
     logIn,
     logOut,
+    newPost,
+    editPost,
     createComment,
     updateComment,
     deleteComment,

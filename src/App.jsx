@@ -1,16 +1,23 @@
-import { useState } from "react";
-import Home from "./components/Home";
+import { useEffect, useState } from "react";
+import router from "./routes.jsx";
 import AuthContext from "./AuthContext";
-import { BrowserRouter, Route, Routes } from "react-router";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Auths from "./components/Auth";
+import { RouterProvider } from "react-router";
 import "./styles/reset.css";
+import SelectionContext from "./selectionContext";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [selectedPost, setSelectedPost] = useState(null);
+
   const [email, setEmail] = useState(null);
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    if (email) {
+      login(email);
+    }
+  }, []);
 
   const login = (email) => {
     setIsLoggedIn(true);
@@ -19,20 +26,15 @@ function App() {
 
   const logout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem("user");
     setEmail(null);
   };
 
   return (
     <AuthContext value={{ isLoggedIn, email, login, logout }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="auth" element={<Auths />}>
-            <Route path="sign-up" element={<SignUp />} />
-            <Route path="log-in" element={<Login />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <SelectionContext value={{ selectedPost, setSelectedPost }}>
+        <RouterProvider router={router} />
+      </SelectionContext>
     </AuthContext>
   );
 }
