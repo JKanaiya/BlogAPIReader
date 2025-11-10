@@ -230,7 +230,7 @@ export default function Home() {
       </div>
       <div className={home.container}>
         {loading && <p> Loading...</p>}
-        {error && <p> Error = {error}</p>}
+        {error && <p> Error</p>}
         {data && (
           <Posts
             data={
