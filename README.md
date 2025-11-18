@@ -1,6 +1,6 @@
 # BlogReader
 
-BlogReader provides a front-end application to read and display the blogs written here: https://github.com/JKanaiya/BlogWriter. 
+BlogReader provides a front-end application to read and display the blogs written here: https://github.com/JKanaiya/BlogWriter. \
 This API:https://github.com/JKanaiya/BlogAPI provides the functionality to facilitate this interaction.
 
 ## Usage
@@ -24,7 +24,6 @@ echo "VITE_BACKEND_URL=<your_backend_url_here>" >> .env
 ```bash
 npm run dev
 ```
---
 
 
 Features
