@@ -3,7 +3,7 @@ import axios from "axios";
 import ApiCall from "../apiCalls";
 import Comments from "./Comments";
 import Posts from "./Posts";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router";
 import AuthContext from "../AuthContext";
 import home from "../styles/home.module.css";
@@ -212,6 +212,16 @@ export default function Home() {
     revalidateOnMount: true,
   });
 
+  // Use to check if the data is loading, or the error if so
+  // useEffect(() => {
+  //   console.log(error);
+  //   console.log(data);
+  //
+  //   return () => {
+  //     return;
+  //   };
+  // }, [error, data]);
+
   return (
     <div className={home.body}>
       <div className={home.navigation}>
@@ -229,8 +239,14 @@ export default function Home() {
         </div>
       </div>
       <div className={home.container}>
-        {loading && <p> Loading...</p>}
-        {error && <p> Error</p>}
+        {loading && (
+          <img
+            src="/assets/blendertimer-load-37.gif"
+            className={`${home.loading} ${home.contentState}`}
+            alt="Loading..."
+          />
+        )}
+        {error && <p className={home.loading}>Error </p>}
         {data && (
           <Posts
             data={

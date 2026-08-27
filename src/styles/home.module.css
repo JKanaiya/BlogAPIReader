@@ -33,6 +33,17 @@
   column-gap: 20px;
 }
 
+.contentState {
+  composes: softWhite from "../colors.module.css";
+}
+
+.loading {
+  font-size: 20px;
+  height: 200px;
+  margin-top: 300px;
+  color: white;
+}
+
 .input {
   composes: softWhite from "../colors.module.css";
   padding: 1% 5%;
