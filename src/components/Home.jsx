@@ -225,17 +225,16 @@ export default function Home() {
   return (
     <div className={home.body}>
       <div className={home.navigation}>
-        <h1 className={text.headingTitle}>Blog API</h1>
+        <h1 className={text.headingTitle}>JKanaiya</h1>
         <div className={home.searchContainer}>
-          <RiSearch2Line className={icons.search} />
           <input
             type="text"
             name="search"
             id=""
-            placeholder="Search"
             className={home.input}
             onChange={searchPosts}
           />
+          <RiSearch2Line className={icons.search} />
         </div>
       </div>
       <div className={home.container}>
@@ -263,7 +262,7 @@ export default function Home() {
             toggleComments={toggleComments}
           />
         )}
-        {commentsVisible && (
+        {selectedPost && (
           <div className={comment.container}>
             {selectedPost &&
               commentsVisible &&

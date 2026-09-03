@@ -1,7 +1,7 @@
 .headingTitle {
   composes: softWhite from "../colors.module.css";
   font:
-    2rem / 1em "Anton SC",
+    1.5rem / 1em "Anton SC",
     sans-serif;
 }
 

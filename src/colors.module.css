@@ -1,5 +1,5 @@
 .bgColor {
-  background-color: hsl(218, 36%, 13%);
+  background-color: oklch(0.0757 0.062 258.35);
 }
 
 .secondaryContainer {

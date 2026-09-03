@@ -11,6 +11,8 @@
   display: flex;
   place-self: end;
   scrollbar-width: none;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-evenly;
 }
 
@@ -18,12 +20,12 @@
   composes: bgColor from "../colors.module.css";
   padding: 2%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 2px 0.1px 1px 0.1px oklch(90% 0 90);
+  /* box-shadow: 2px 0.1px 1px 0.1px oklch(90% 0 90); */
 }
 
 .menuBar {
@@ -48,17 +50,18 @@
   composes: softWhite from "../colors.module.css";
   padding: 1% 5%;
   border: none;
-  border-radius: 5px;
+  border-bottom: 1px solid white;
+  /* border-radius: 5px; */
   font-family: "Ubuntu", sans-serif;
-  background: rgba(236, 236, 236, 0.15);
+  background: none;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(13.8px);
   -webkit-backdrop-filter: blur(13.8px);
 }
 
 .searchContainer {
-  min-width: 30%;
   display: flex;
+  width: auto;
   column-gap: 10px;
 }
 
@@ -141,8 +144,11 @@ input[type="reset"] {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 468px) {
   .authCheck {
     flex-direction: column;
+  }
+  .searchContainer input {
+    max-width: 100px;
   }
 }

@@ -36,13 +36,13 @@ export default function Posts({
             <span className={icons.closeIcon} onClick={toggleSelectedPost}>
               <IoCloseOutline />
             </span>
-            <div className={icons.comment}>
-              {commentsVisible && selectedPost ? (
-                <BiSolidCommentX onClick={toggleComments} />
-              ) : (
-                <BiSolidComment onClick={toggleComments} />
-              )}
-            </div>
+            {/* <div className={icons.comment}> */}
+            {/*   {commentsVisible && selectedPost ? ( */}
+            {/*     <BiSolidCommentX onClick={toggleComments} /> */}
+            {/*   ) : ( */}
+            {/*     <BiSolidComment onClick={toggleComments} /> */}
+            {/*   )} */}
+            {/* </div> */}
           </div>
           <div className={posts.selectedPost}>
             <h1>{selectedPost.title}</h1>

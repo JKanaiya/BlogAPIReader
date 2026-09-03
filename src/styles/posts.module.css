@@ -10,8 +10,9 @@
   /* max-height: 85dvh; */
   row-gap: 35px;
   padding: 1%;
-  max-width: 50%;
+  max-width: 60%;
   min-width: 50%;
+  max-height: 80dvh;
   scrollbar-width: none;
   overflow-y: auto;
   scroll-behavior: smooth;
@@ -47,7 +48,7 @@
 
 .post {
   composes: softerWhite from "../colors.module.css";
-  background-color: oklch(0.1558 0.0456 260.37);
+  /* background-color: oklch(0.1558 0.0456 260.37); */
   padding: 3%;
   max-height: 250px;
   text-overflow: ellipsis;
@@ -58,7 +59,7 @@
   border-radius: 10px;
   position: relative;
   /* border: 0.01em solid oklch(0.6721 0.032 260.37); */
-  box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37);
+  /* box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37); */
   /* width: max(47%, 15rem); */
 }
 
@@ -69,6 +70,7 @@
 
 .iconButton {
   cursor: pointer;
+  background-color: black;
   font-size: 20px;
   display: flex;
   flex-shrink: 0;
@@ -87,12 +89,13 @@
 
 .selectedContainer {
   composes: softerWhite from "../colors.module.css";
-  background-color: oklch(0.1558 0.0456 260.37);
+  /* background-color: oklch(0.1558 0.0456 260.37); */
   width: 100%;
   min-height: 60dvh;
   overflow: hidden;
-  box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37);
+  /* box-shadow: 5px 5px 2px oklch(0.2003 0.032 260.37); */
   max-height: 90dvh;
+  scrollbar-width: none;
   overflow-y: scroll;
 }
 
@@ -108,7 +111,7 @@
   flex-direction: column;
   position: absolute;
   row-gap: 20px;
-  right: 30px;
+  right: 10px;
   top: 30px;
 }
 
@@ -134,5 +137,8 @@
 @media screen and (max-width: 600px) {
   .post {
     min-width: 90%;
+  }
+  .container {
+    max-width: 100%;
   }
 }
