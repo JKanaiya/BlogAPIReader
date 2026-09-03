@@ -264,24 +264,22 @@ export default function Home() {
         )}
         {selectedPost && (
           <div className={comment.container}>
-            {selectedPost &&
-              commentsVisible &&
-              selectedPost.Comment.map((comment) => {
-                return (
-                  <div key={comment.id}>
-                    <Comments
-                      updateComments={updateComments}
-                      selectedComment={selectedComment}
-                      comment={comment}
-                      successNotify={successNotify}
-                      errorNotify={errorNotify}
-                      mutate={mutate}
-                      updateSelectedComment={updateSelectedComment}
-                      toggleSelectedComment={toggleSelectedComment}
-                    />
-                  </div>
-                );
-              })}
+            {selectedPost.Comment.map((comment) => {
+              return (
+                <div key={comment.id}>
+                  <Comments
+                    updateComments={updateComments}
+                    selectedComment={selectedComment}
+                    comment={comment}
+                    successNotify={successNotify}
+                    errorNotify={errorNotify}
+                    mutate={mutate}
+                    updateSelectedComment={updateSelectedComment}
+                    toggleSelectedComment={toggleSelectedComment}
+                  />
+                </div>
+              );
+            })}
             {isLoggedIn ? (
               <form action={addComment} className={home.addComment}>
                 <input
